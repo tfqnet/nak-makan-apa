@@ -11,9 +11,11 @@ createRoot(document.getElementById('root')).render(
 );
 
 // Register service worker for PWA
+// Register service worker for PWA
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/src/service-worker.js').then(reg => {
+    const swUrl = `${import.meta.env.BASE_URL}service-worker.js`;
+    navigator.serviceWorker.register(swUrl).then(reg => {
       if (reg.waiting) {
         alert('Versi baru tersedia! App akan di-refresh.');
         reg.waiting.postMessage('SKIP_WAITING');

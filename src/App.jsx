@@ -1,7 +1,3 @@
-  // Animation state for swipe
-  const [swipeStyle, setSwipeStyle] = useState({});
-  const [isAnimating, setIsAnimating] = useState(false);
-
 import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
 
@@ -53,6 +49,10 @@ function App() {
   const [showGuide, setShowGuide] = useState(() => {
     return !localStorage.getItem('swipeGuideSeen');
   });
+
+  // Animation state for swipe
+  const [swipeStyle, setSwipeStyle] = useState({});
+  const [isAnimating, setIsAnimating] = useState(false);
 
   // Device detection
   const isMobile = useRef(false);
