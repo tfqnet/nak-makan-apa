@@ -77,7 +77,7 @@ function App() {
   // Swipe gesture logic
   const questionCardRef = useRef(null);
   useEffect(() => {
-    if (!isMobile.current || !questionCardRef.current) return;
+    if (!isMobile.current || !questionCardRef.current || step === 0 || step > questions.length) return;
     let startX = null;
     let currentX = null;
     let handled = false;
@@ -160,7 +160,11 @@ function App() {
   };
 
   return (
-    <div className="app-container">
+    <div 
+      className="app-container"
+      ref={questionCardRef}
+      style={isMobile.current ? swipeStyle : {}}
+    >
       <h1>Nak Makan Apa?</h1>
       {showGuide && (
         <div className="splash-guide" style={{background:'#e0f2fe',padding:'2em',borderRadius:'12px',marginBottom:'1.5em'}}>
@@ -180,11 +184,7 @@ function App() {
         </div>
       )}
       {step > 0 && step <= questions.length && (
-        <div
-          className="question-card"
-          ref={questionCardRef}
-          style={isMobile.current ? swipeStyle : {}}
-        >
+        <div className="question-card">
           <h2>{questions[step - 1].text}</h2>
           {!isMobile.current && (
             <div className="options">
