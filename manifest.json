@@ -1,0 +1,21 @@
+{
+  "name": "Nak Makan Apa?",
+  "short_name": "Nak Makan Apa?",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#38bdf8",
+  "theme_color": "#38bdf8",
+  "description": "Cari cadangan makanan Malaysia ikut mood anda!",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
