@@ -1,3 +1,6 @@
+  // Animation state for swipe
+  const [swipeStyle, setSwipeStyle] = useState({});
+  const [isAnimating, setIsAnimating] = useState(false);
 
 import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
@@ -76,10 +79,23 @@ function App() {
   useEffect(() => {
     if (!isMobile.current || !questionCardRef.current) return;
     let startX = null;
+    let currentX = null;
     let handled = false;
+    const card = questionCardRef.current;
     const handleTouchStart = (e) => {
       startX = e.touches[0].clientX;
+      currentX = startX;
       handled = false;
+      setSwipeStyle({});
+    };
+    const handleTouchMove = (e) => {
+      if (startX === null) return;
+      currentX = e.touches[0].clientX;
+      const diff = currentX - startX;
+      setSwipeStyle({
+        transform: `translateX(${diff}px) rotate(${diff/10}deg)`,
+        transition: 'none',
+      });
     };
     const handleTouchEnd = (e) => {
       if (startX === null) return;
@@ -87,16 +103,32 @@ function App() {
       const diff = endX - startX;
       if (!handled && Math.abs(diff) > 50) {
         handled = true;
-        if (diff > 0) handleAnswer('YES'); // swipe right
-        else handleAnswer('NO'); // swipe left
+        setIsAnimating(true);
+        setSwipeStyle({
+          transform: `translateX(${diff > 0 ? 500 : -500}px) rotate(${diff/5}deg)`,
+          transition: 'transform 0.3s',
+        });
+        setTimeout(() => {
+          setSwipeStyle({});
+          setIsAnimating(false);
+          handleAnswer(diff > 0 ? 'YES' : 'NO');
+        }, 300);
+      } else {
+        setSwipeStyle({
+          transform: 'translateX(0px) rotate(0deg)',
+          transition: 'transform 0.2s',
+        });
+        setTimeout(() => setSwipeStyle({}), 200);
       }
       startX = null;
+      currentX = null;
     };
-    const card = questionCardRef.current;
     card.addEventListener('touchstart', handleTouchStart);
+    card.addEventListener('touchmove', handleTouchMove);
     card.addEventListener('touchend', handleTouchEnd);
     return () => {
       card.removeEventListener('touchstart', handleTouchStart);
+      card.removeEventListener('touchmove', handleTouchMove);
       card.removeEventListener('touchend', handleTouchEnd);
     };
   }, [step]);
@@ -148,7 +180,11 @@ function App() {
         </div>
       )}
       {step > 0 && step <= questions.length && (
-        <div className="question-card" ref={questionCardRef}>
+        <div
+          className="question-card"
+          ref={questionCardRef}
+          style={isMobile.current ? swipeStyle : {}}
+        >
           <h2>{questions[step - 1].text}</h2>
           {!isMobile.current && (
             <div className="options">
