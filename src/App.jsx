@@ -215,7 +215,14 @@ function App() {
       >
         {step === 0 && <h1 style={{ color: colors.titleColor }}>Nak Makan Apa?</h1>}
         {showGuide && (
-          <div className="splash-guide" style={{background:'rgba(224, 242, 254, 0.9)',padding:'2em',borderRadius:'12px',marginBottom:'1.5em'}}>
+          <div className="splash-guide" style={{
+            background: 'rgba(255, 255, 255, 0.9)',
+            padding: '2em',
+            borderRadius: '16px',
+            marginBottom: '1.5em',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.3)'
+          }}>
             <h2>Tip: Swipe untuk Pilihan</h2>
             <p>Di telefon, anda boleh swipe kanan untuk YES, swipe kiri untuk NO.<br/>Di desktop, klik butang seperti biasa.</p>
             <button onClick={() => { setShowGuide(false); localStorage.setItem('swipeGuideSeen', '1'); }}>OK, faham!</button>
