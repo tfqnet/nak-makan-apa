@@ -114,6 +114,7 @@ function App() {
   const [hasJiggled, setHasJiggled] = useState(false);
   const [showJigglePopup, setShowJigglePopup] = useState(false);
   const [lastInteraction, setLastInteraction] = useState(Date.now());
+  const [currentSuggestion, setCurrentSuggestion] = useState(''); // Store the suggestion
 
   // Animation state for swipe
   const [swipeStyle, setSwipeStyle] = useState({});
@@ -256,20 +257,31 @@ function App() {
 
   const handleAnswer = (answer) => {
     const currentKey = questions[step - 1].key;
-    setAnswers((prev) => ({ ...prev, [currentKey]: answer }));
+    const newAnswers = { ...answers, [currentKey]: answer };
+    setAnswers(newAnswers);
+    
+    // If this is the last question, generate the suggestion
+    if (step === questions.length) {
+      const suggestion = generateSuggestion(newAnswers);
+      setCurrentSuggestion(suggestion);
+    }
+    
     setStep(step + 1);
     setLastInteraction(Date.now()); // Update interaction time
   };
 
-  const getSuggestion = () => {
-    if (!restaurant) return null;
+  const generateSuggestion = (currentAnswers) => {
+    if (!restaurant) return 'Sila pilih jenis restoran terlebih dahulu.';
+    
     const list = foodCategories[restaurant].filter(
       (f) =>
-        f.hungry === answers.hungry &&
-        f.spicy === answers.spicy &&
-        f.expensive === answers.expensive
+        f.hungry === currentAnswers.hungry &&
+        f.spicy === currentAnswers.spicy &&
+        f.expensive === currentAnswers.expensive
     );
-    if (list.length === 0) return null;
+    
+    if (list.length === 0) return 'Tiada cadangan makanan untuk pilihan ini.';
+    
     // Pick one random item
     const idx = Math.floor(Math.random() * list.length);
     return list[idx].name;
@@ -279,6 +291,7 @@ function App() {
     setStep(0);
     setRestaurant('');
     setAnswers({ hungry: '', spicy: '', expensive: '' });
+    setCurrentSuggestion(''); // Clear the suggestion
   };
 
   // Feedback functionality
@@ -615,11 +628,7 @@ Please email this to: tfqnet@gmail.com`;
         {step > questions.length && (
           <>
             <h2>Cadangan makanan untuk anda:</h2>
-            {getSuggestion() ? (
-              <p className="suggestion">{getSuggestion()}</p>
-            ) : (
-              <p className="suggestion">Tiada cadangan makanan untuk pilihan ini.</p>
-            )}
+            <p className="suggestion">{currentSuggestion}</p>
             <div style={{display: 'flex', justifyContent: 'center', marginTop: '2rem'}}>
               <button onClick={handleRestart}>Cuba lagi</button>
             </div>
