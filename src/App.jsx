@@ -65,17 +65,18 @@ function App() {
     setStep(step + 1);
   };
 
-  const getSuggestions = () => {
-    if (!restaurant) return [];
+  const getSuggestion = () => {
+    if (!restaurant) return null;
     const list = foodCategories[restaurant].filter(
       (f) =>
         f.hungry === answers.hungry &&
         f.spicy === answers.spicy &&
         f.expensive === answers.expensive
     );
-    // Shuffle and pick up to 3 random items
-    const shuffled = list.sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, 3);
+    if (list.length === 0) return null;
+    // Pick one random item
+    const idx = Math.floor(Math.random() * list.length);
+    return list[idx].name;
   };
 
   const handleRestart = () => {
@@ -90,7 +91,7 @@ function App() {
       {step === 0 && (
         <div className="question-card">
           <h2>Pilih jenis restoran:</h2>
-          <div className="options">
+          <div className="options" style={{flexDirection: 'column', gap: '1rem'}}>
             <button onClick={() => handleRestaurant('western')}>Western Food</button>
             <button onClick={() => handleRestaurant('mamak')}>Mamak</button>
             <button onClick={() => handleRestaurant('thai')}>Thai Food</button>
@@ -109,12 +110,8 @@ function App() {
       {step > questions.length && (
         <div className="result-card">
           <h2>Cadangan makanan untuk anda:</h2>
-          {getSuggestions().length > 0 ? (
-            <ul style={{textAlign: 'left', margin: '1em auto', maxWidth: '300px'}}>
-              {getSuggestions().map((item, idx) => (
-                <li key={idx} className="suggestion">{item.name}</li>
-              ))}
-            </ul>
+          {getSuggestion() ? (
+            <p className="suggestion">{getSuggestion()}</p>
           ) : (
             <p className="suggestion">Tiada cadangan makanan untuk pilihan ini.</p>
           )}
