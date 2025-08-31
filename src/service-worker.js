@@ -1,3 +1,4 @@
+
 self.addEventListener('install', event => {
   self.skipWaiting();
 });
@@ -8,8 +9,17 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request).then(response => {
-      return response || fetch(event.request);
-    })
+    fetch(event.request)
+      .then(response => {
+        // Optionally update cache here
+        return response;
+      })
+      .catch(() => caches.match(event.request))
   );
+});
+
+self.addEventListener('message', event => {
+  if (event.data === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
