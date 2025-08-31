@@ -46,9 +46,7 @@ function App() {
   const [step, setStep] = useState(0);
   const [restaurant, setRestaurant] = useState('');
   const [answers, setAnswers] = useState({ hungry: '', spicy: '', expensive: '' });
-  const [showGuide, setShowGuide] = useState(() => {
-    return !localStorage.getItem('swipeGuideSeen');
-  });
+  const [hasJiggled, setHasJiggled] = useState(false);
 
   // Animation state for swipe
   const [swipeStyle, setSwipeStyle] = useState({});
@@ -76,6 +74,33 @@ function App() {
 
   // Swipe gesture logic
   const questionCardRef = useRef(null);
+  
+  // Jiggle animation on first question
+  useEffect(() => {
+    if (step === 1 && !hasJiggled && questionCardRef.current) {
+      setTimeout(() => {
+        setSwipeStyle({
+          transform: 'translateX(15px) rotate(2deg)',
+          transition: 'transform 0.3s ease'
+        });
+        setTimeout(() => {
+          setSwipeStyle({
+            transform: 'translateX(-15px) rotate(-2deg)',
+            transition: 'transform 0.3s ease'
+          });
+          setTimeout(() => {
+            setSwipeStyle({
+              transform: 'translateX(0px) rotate(0deg)',
+              transition: 'transform 0.3s ease'
+            });
+            setTimeout(() => setSwipeStyle({}), 300);
+            setHasJiggled(true);
+          }, 300);
+        }, 300);
+      }, 500);
+    }
+  }, [step, hasJiggled]);
+
   useEffect(() => {
     if (!isMobile.current || !questionCardRef.current || step === 0 || step > questions.length) return;
     let startX = null;
@@ -223,20 +248,6 @@ function App() {
         }}
       >
         {step === 0 && <h1 style={{ color: colors.titleColor }}>Nak Makan Apa?</h1>}
-        {showGuide && (
-          <div className="splash-guide" style={{
-            background: 'rgba(255, 255, 255, 0.9)',
-            padding: '2em',
-            borderRadius: '16px',
-            marginBottom: '1.5em',
-            backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(255, 255, 255, 0.3)'
-          }}>
-            <h2>Tip: Swipe untuk Pilihan</h2>
-            <p>Di telefon, anda boleh swipe kanan untuk YES, swipe kiri untuk NO.<br/>Di desktop, klik butang seperti biasa.</p>
-            <button onClick={() => { setShowGuide(false); localStorage.setItem('swipeGuideSeen', '1'); }}>OK, faham!</button>
-          </div>
-        )}
         {step === 0 && (
           <>
             <h2>Pilih jenis restoran:</h2>
@@ -249,6 +260,48 @@ function App() {
         )}
         {step > 0 && step <= questions.length && (
           <>
+            {/* Swipe indicators for mobile */}
+            {isMobile.current && (
+              <div style={{
+                position: 'absolute',
+                top: '20px',
+                left: '0',
+                right: '0',
+                display: 'flex',
+                justifyContent: 'space-between',
+                padding: '0 20px',
+                pointerEvents: 'none'
+              }}>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  background: 'rgba(239, 68, 68, 0.9)',
+                  padding: '8px 12px',
+                  borderRadius: '20px',
+                  color: 'white',
+                  fontSize: '12px',
+                  fontWeight: '600'
+                }}>
+                  <span>👈</span>
+                  <span>NO</span>
+                </div>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  background: 'rgba(34, 197, 94, 0.9)',
+                  padding: '8px 12px',
+                  borderRadius: '20px',
+                  color: 'white',
+                  fontSize: '12px',
+                  fontWeight: '600'
+                }}>
+                  <span>YES</span>
+                  <span>👉</span>
+                </div>
+              </div>
+            )}
             <h2>{questions[step - 1].text}</h2>
             {!isMobile.current && (
               <div className="options">
