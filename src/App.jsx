@@ -84,22 +84,6 @@ function App() {
   return (
     <div className="app-container">
       <h1>Nak Makan Apa?</h1>
-      {step === 0 && (
-        <>
-          <button style={{marginBottom: '1rem', background: '#16a34a'}} onClick={handlePWAInstall}>
-            Install App (PWA)
-          </button>
-          {!showInstall && (
-            <div style={{marginBottom: '1rem', fontSize: '0.95em', color: '#555'}}>
-              <p>
-                Jika tiada pop-up, anda boleh install secara manual:<br />
-                <b>Chrome/Edge:</b> Klik tiga titik di atas &gt; "Install App"<br />
-                <b>Mobile:</b> Pilih "Add to Home Screen" dari menu browser
-              </p>
-            </div>
-          )}
-        </>
-      )}
       {step < questions.length ? (
         <div className="question-card">
           <h2>{questions[step].text}</h2>
