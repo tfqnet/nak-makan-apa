@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
 
 
@@ -47,6 +47,18 @@ function App() {
   const [step, setStep] = useState(0);
   const [restaurant, setRestaurant] = useState('');
   const [answers, setAnswers] = useState({ hungry: '', spicy: '', expensive: '' });
+  const [showGuide, setShowGuide] = useState(() => {
+    return !localStorage.getItem('swipeGuideSeen');
+  });
+
+  // Device detection
+  const isMobile = useRef(false);
+  useEffect(() => {
+    isMobile.current =
+      'ontouchstart' in window ||
+      navigator.maxTouchPoints > 0 ||
+      /android|iphone|ipad|ipod|mobile/i.test(navigator.userAgent);
+  }, []);
 
   const questions = [
     { key: 'hungry', text: 'Hungry or not?' },
@@ -58,6 +70,36 @@ function App() {
     setRestaurant(type);
     setStep(1);
   };
+
+  // Swipe gesture logic
+  const questionCardRef = useRef(null);
+  useEffect(() => {
+    if (!isMobile.current || !questionCardRef.current) return;
+    let startX = null;
+    let handled = false;
+    const handleTouchStart = (e) => {
+      startX = e.touches[0].clientX;
+      handled = false;
+    };
+    const handleTouchEnd = (e) => {
+      if (startX === null) return;
+      const endX = e.changedTouches[0].clientX;
+      const diff = endX - startX;
+      if (!handled && Math.abs(diff) > 50) {
+        handled = true;
+        if (diff > 0) handleAnswer('YES'); // swipe right
+        else handleAnswer('NO'); // swipe left
+      }
+      startX = null;
+    };
+    const card = questionCardRef.current;
+    card.addEventListener('touchstart', handleTouchStart);
+    card.addEventListener('touchend', handleTouchEnd);
+    return () => {
+      card.removeEventListener('touchstart', handleTouchStart);
+      card.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [step]);
 
   const handleAnswer = (answer) => {
     const currentKey = questions[step - 1].key;
@@ -88,6 +130,13 @@ function App() {
   return (
     <div className="app-container">
       <h1>Nak Makan Apa?</h1>
+      {showGuide && (
+        <div className="splash-guide" style={{background:'#e0f2fe',padding:'2em',borderRadius:'12px',marginBottom:'1.5em'}}>
+          <h2>Tip: Swipe untuk Pilihan</h2>
+          <p>Di telefon, anda boleh swipe kanan untuk YES, swipe kiri untuk NO.<br/>Di desktop, klik butang seperti biasa.</p>
+          <button onClick={() => { setShowGuide(false); localStorage.setItem('swipeGuideSeen', '1'); }}>OK, faham!</button>
+        </div>
+      )}
       {step === 0 && (
         <div className="question-card">
           <h2>Pilih jenis restoran:</h2>
@@ -99,12 +148,14 @@ function App() {
         </div>
       )}
       {step > 0 && step <= questions.length && (
-        <div className="question-card">
+        <div className="question-card" ref={questionCardRef}>
           <h2>{questions[step - 1].text}</h2>
-          <div className="options">
-            <button onClick={() => handleAnswer('YES')}>YES</button>
-            <button onClick={() => handleAnswer('NO')}>NO</button>
-          </div>
+          {!isMobile.current && (
+            <div className="options">
+              <button onClick={() => handleAnswer('YES')}>YES</button>
+              <button onClick={() => handleAnswer('NO')}>NO</button>
+            </div>
+          )}
         </div>
       )}
       {step > questions.length && (
@@ -121,5 +172,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
