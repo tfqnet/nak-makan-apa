@@ -9,15 +9,20 @@ body {
     'Ubuntu', 'Cantarell', 'Open Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 .app-container {
+  width: 100%;
   max-width: 400px;
-  margin: 40px auto;
-  padding: 2rem;
+  padding: 3rem 2rem;
   border-radius: 20px;
   text-align: center;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   /* Background will be set dynamically via inline styles */
 }
 
@@ -28,14 +33,11 @@ h1 {
   text-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.question-card, .result-card {
-  padding: 2.5em 2em;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 16px;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+h2 {
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #2d3748;
 }
 
 .options {
@@ -43,7 +45,7 @@ h1 {
   flex-direction: column;
   align-items: center;
   gap: 1.2rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 button {

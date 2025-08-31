@@ -200,8 +200,11 @@ function App() {
     <div style={{ 
       background: colors.background, 
       minHeight: '100vh', 
-      padding: '20px 0',
-      transition: 'background 0.5s ease'
+      padding: '20px',
+      transition: 'background 0.5s ease',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center'
     }}>
       <div 
         className="app-container"
@@ -229,17 +232,17 @@ function App() {
           </div>
         )}
         {step === 0 && (
-          <div className="question-card">
+          <>
             <h2>Pilih jenis restoran:</h2>
             <div className="options" style={{flexDirection: 'column', gap: '1rem'}}>
               <button onClick={() => handleRestaurant('western')}>Western Food</button>
               <button onClick={() => handleRestaurant('mamak')}>Mamak</button>
               <button onClick={() => handleRestaurant('thai')}>Thai Food</button>
             </div>
-          </div>
+          </>
         )}
         {step > 0 && step <= questions.length && (
-          <div className="question-card">
+          <>
             <h2>{questions[step - 1].text}</h2>
             {!isMobile.current && (
               <div className="options">
@@ -247,10 +250,10 @@ function App() {
                 <button onClick={() => handleAnswer('NO')}>NO</button>
               </div>
             )}
-          </div>
+          </>
         )}
         {step > questions.length && (
-          <div className="result-card">
+          <>
             <h2>Cadangan makanan untuk anda:</h2>
             {getSuggestion() ? (
               <p className="suggestion">{getSuggestion()}</p>
@@ -258,7 +261,7 @@ function App() {
               <p className="suggestion">Tiada cadangan makanan untuk pilihan ini.</p>
             )}
             <button onClick={handleRestart}>Cuba lagi</button>
-          </div>
+          </>
         )}
       </div>
     </div>
