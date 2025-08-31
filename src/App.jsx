@@ -159,52 +159,101 @@ function App() {
     setAnswers({ hungry: '', spicy: '', expensive: '' });
   };
 
+  // Get color scheme for each step
+  const getStepColors = () => {
+    if (step === 0) {
+      return {
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        cardBg: 'rgba(255, 255, 255, 0.95)',
+        titleColor: '#ffffff'
+      };
+    } else if (step === 1) {
+      return {
+        background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+        cardBg: 'rgba(255, 255, 255, 0.95)',
+        titleColor: '#ffffff'
+      };
+    } else if (step === 2) {
+      return {
+        background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+        cardBg: 'rgba(255, 255, 255, 0.95)',
+        titleColor: '#ffffff'
+      };
+    } else if (step === 3) {
+      return {
+        background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+        cardBg: 'rgba(255, 255, 255, 0.95)',
+        titleColor: '#ffffff'
+      };
+    } else {
+      return {
+        background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+        cardBg: 'rgba(255, 255, 255, 0.95)',
+        titleColor: '#ffffff'
+      };
+    }
+  };
+
+  const colors = getStepColors();
+
   return (
-    <div 
-      className="app-container"
-      ref={questionCardRef}
-      style={isMobile.current ? swipeStyle : {}}
-    >
-      <h1>Nak Makan Apa?</h1>
-      {showGuide && (
-        <div className="splash-guide" style={{background:'#e0f2fe',padding:'2em',borderRadius:'12px',marginBottom:'1.5em'}}>
-          <h2>Tip: Swipe untuk Pilihan</h2>
-          <p>Di telefon, anda boleh swipe kanan untuk YES, swipe kiri untuk NO.<br/>Di desktop, klik butang seperti biasa.</p>
-          <button onClick={() => { setShowGuide(false); localStorage.setItem('swipeGuideSeen', '1'); }}>OK, faham!</button>
-        </div>
-      )}
-      {step === 0 && (
-        <div className="question-card">
-          <h2>Pilih jenis restoran:</h2>
-          <div className="options" style={{flexDirection: 'column', gap: '1rem'}}>
-            <button onClick={() => handleRestaurant('western')}>Western Food</button>
-            <button onClick={() => handleRestaurant('mamak')}>Mamak</button>
-            <button onClick={() => handleRestaurant('thai')}>Thai Food</button>
+    <div style={{ 
+      background: colors.background, 
+      minHeight: '100vh', 
+      padding: '20px 0',
+      transition: 'background 0.5s ease'
+    }}>
+      <div 
+        className="app-container"
+        ref={questionCardRef}
+        style={{
+          ...(isMobile.current ? swipeStyle : {}),
+          background: colors.cardBg,
+          backdropFilter: 'blur(10px)',
+          border: '1px solid rgba(255, 255, 255, 0.2)'
+        }}
+      >
+        {step === 0 && <h1 style={{ color: colors.titleColor }}>Nak Makan Apa?</h1>}
+        {showGuide && (
+          <div className="splash-guide" style={{background:'rgba(224, 242, 254, 0.9)',padding:'2em',borderRadius:'12px',marginBottom:'1.5em'}}>
+            <h2>Tip: Swipe untuk Pilihan</h2>
+            <p>Di telefon, anda boleh swipe kanan untuk YES, swipe kiri untuk NO.<br/>Di desktop, klik butang seperti biasa.</p>
+            <button onClick={() => { setShowGuide(false); localStorage.setItem('swipeGuideSeen', '1'); }}>OK, faham!</button>
           </div>
-        </div>
-      )}
-      {step > 0 && step <= questions.length && (
-        <div className="question-card">
-          <h2>{questions[step - 1].text}</h2>
-          {!isMobile.current && (
-            <div className="options">
-              <button onClick={() => handleAnswer('YES')}>YES</button>
-              <button onClick={() => handleAnswer('NO')}>NO</button>
+        )}
+        {step === 0 && (
+          <div className="question-card">
+            <h2>Pilih jenis restoran:</h2>
+            <div className="options" style={{flexDirection: 'column', gap: '1rem'}}>
+              <button onClick={() => handleRestaurant('western')}>Western Food</button>
+              <button onClick={() => handleRestaurant('mamak')}>Mamak</button>
+              <button onClick={() => handleRestaurant('thai')}>Thai Food</button>
             </div>
-          )}
-        </div>
-      )}
-      {step > questions.length && (
-        <div className="result-card">
-          <h2>Cadangan makanan untuk anda:</h2>
-          {getSuggestion() ? (
-            <p className="suggestion">{getSuggestion()}</p>
-          ) : (
-            <p className="suggestion">Tiada cadangan makanan untuk pilihan ini.</p>
-          )}
-          <button onClick={handleRestart}>Cuba lagi</button>
-        </div>
-      )}
+          </div>
+        )}
+        {step > 0 && step <= questions.length && (
+          <div className="question-card">
+            <h2>{questions[step - 1].text}</h2>
+            {!isMobile.current && (
+              <div className="options">
+                <button onClick={() => handleAnswer('YES')}>YES</button>
+                <button onClick={() => handleAnswer('NO')}>NO</button>
+              </div>
+            )}
+          </div>
+        )}
+        {step > questions.length && (
+          <div className="result-card">
+            <h2>Cadangan makanan untuk anda:</h2>
+            {getSuggestion() ? (
+              <p className="suggestion">{getSuggestion()}</p>
+            ) : (
+              <p className="suggestion">Tiada cadangan makanan untuk pilihan ini.</p>
+            )}
+            <button onClick={handleRestart}>Cuba lagi</button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
