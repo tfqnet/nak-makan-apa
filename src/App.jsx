@@ -1,5 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
+import emailjs from '@emailjs/browser';
 import './App.css';
+
+// App version - controlled by developer
+const APP_VERSION = '2.1.0';
 
 
 const foodCategories = {
@@ -14,6 +18,26 @@ const foodCategories = {
     { name: 'Chicken Burger', hungry: 'YES', spicy: 'NO', expensive: 'NO' },
     { name: 'Lasagna', hungry: 'YES', spicy: 'NO', expensive: 'YES' },
     { name: 'BBQ Ribs', hungry: 'YES', spicy: 'YES', expensive: 'YES' },
+    { name: 'Beef Burger', hungry: 'YES', spicy: 'NO', expensive: 'NO' },
+    { name: 'Chicken Wings', hungry: 'YES', spicy: 'YES', expensive: 'NO' },
+    { name: 'Pork Chop', hungry: 'YES', spicy: 'NO', expensive: 'NO' },
+    { name: 'Shepherd\'s Pie', hungry: 'YES', spicy: 'NO', expensive: 'NO' },
+    { name: 'Beef Stew', hungry: 'YES', spicy: 'NO', expensive: 'NO' },
+    { name: 'Chicken Cordon Bleu', hungry: 'YES', spicy: 'NO', expensive: 'YES' },
+    { name: 'French Fries', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    { name: 'Onion Rings', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    { name: 'Garlic Bread', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    { name: 'Clam Chowder', hungry: 'NO', spicy: 'NO', expensive: 'YES' },
+    { name: 'Lobster Thermidor', hungry: 'YES', spicy: 'NO', expensive: 'YES' },
+    { name: 'Grilled Salmon', hungry: 'YES', spicy: 'NO', expensive: 'YES' },
+    { name: 'Chicken Parmesan', hungry: 'YES', spicy: 'NO', expensive: 'NO' },
+    { name: 'Beef Wellington', hungry: 'YES', spicy: 'NO', expensive: 'YES' },
+    { name: 'Fish Fillet', hungry: 'YES', spicy: 'NO', expensive: 'NO' },
+    { name: 'Chicken Sandwich', hungry: 'YES', spicy: 'NO', expensive: 'NO' },
+    { name: 'Club Sandwich', hungry: 'YES', spicy: 'NO', expensive: 'NO' },
+    { name: 'Beef Stroganoff', hungry: 'YES', spicy: 'NO', expensive: 'YES' },
+    { name: 'Chicken Alfredo', hungry: 'YES', spicy: 'NO', expensive: 'NO' },
+    { name: 'Pepperoni Pizza', hungry: 'YES', spicy: 'NO', expensive: 'NO' },
   ],
   mamak: [
     { name: 'Roti Canai', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
@@ -26,6 +50,26 @@ const foodCategories = {
     { name: 'Tosai', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
     { name: 'Roti Telur', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
     { name: 'Milo Ais', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    { name: 'Roti Bom', hungry: 'YES', spicy: 'NO', expensive: 'NO' },
+    { name: 'Roti Pisang', hungry: 'YES', spicy: 'NO', expensive: 'NO' },
+    { name: 'Chapati', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    { name: 'Putu Mayam', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    { name: 'Mee Rebus', hungry: 'YES', spicy: 'NO', expensive: 'NO' },
+    { name: 'Laksa', hungry: 'YES', spicy: 'YES', expensive: 'NO' },
+    { name: 'Mee Bandung', hungry: 'YES', spicy: 'YES', expensive: 'NO' },
+    { name: 'Nasi Briyani', hungry: 'YES', spicy: 'YES', expensive: 'YES' },
+    { name: 'Kambing Soup', hungry: 'YES', spicy: 'NO', expensive: 'YES' },
+    { name: 'Ayam Tandoori', hungry: 'YES', spicy: 'YES', expensive: 'YES' },
+    { name: 'Roti Jala', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    { name: 'Kuey Teow Goreng', hungry: 'YES', spicy: 'YES', expensive: 'NO' },
+    { name: 'Murtabak', hungry: 'YES', spicy: 'NO', expensive: 'NO' },
+    { name: 'Roti Tissue', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    { name: 'Nasi Tomato', hungry: 'YES', spicy: 'NO', expensive: 'NO' },
+    { name: 'Dalcha', hungry: 'YES', spicy: 'NO', expensive: 'NO' },
+    { name: 'Rendang Daging', hungry: 'YES', spicy: 'YES', expensive: 'YES' },
+    { name: 'Kari Ayam', hungry: 'YES', spicy: 'YES', expensive: 'NO' },
+    { name: 'Kopi O', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    { name: 'Limau Ais', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
   ],
   thai: [
     { name: 'Tom Yum', hungry: 'YES', spicy: 'YES', expensive: 'NO' },
@@ -38,15 +82,38 @@ const foodCategories = {
     { name: 'Red Curry', hungry: 'YES', spicy: 'YES', expensive: 'YES' },
     { name: 'Thai Fish Cake', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
     { name: 'Pineapple Fried Rice', hungry: 'YES', spicy: 'NO', expensive: 'NO' },
+    { name: 'Tom Kha Gai', hungry: 'YES', spicy: 'NO', expensive: 'NO' },
+    { name: 'Massaman Curry', hungry: 'YES', spicy: 'YES', expensive: 'YES' },
+    { name: 'Pad See Ew', hungry: 'YES', spicy: 'NO', expensive: 'NO' },
+    { name: 'Pad Kra Pao', hungry: 'YES', spicy: 'YES', expensive: 'NO' },
+    { name: 'Thai Spring Rolls', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    { name: 'Larb', hungry: 'NO', spicy: 'YES', expensive: 'NO' },
+    { name: 'Thai Satay', hungry: 'NO', spicy: 'YES', expensive: 'NO' },
+    { name: 'Pad Woon Sen', hungry: 'YES', spicy: 'NO', expensive: 'NO' },
+    { name: 'Thai Beef Salad', hungry: 'NO', spicy: 'YES', expensive: 'NO' },
+    { name: 'Coconut Soup', hungry: 'YES', spicy: 'NO', expensive: 'NO' },
+    { name: 'Thai Fish Curry', hungry: 'YES', spicy: 'YES', expensive: 'YES' },
+    { name: 'Pad Kaprao', hungry: 'YES', spicy: 'YES', expensive: 'NO' },
+    { name: 'Thai Omelette', hungry: 'YES', spicy: 'NO', expensive: 'NO' },
+    { name: 'Mango Salad', hungry: 'NO', spicy: 'YES', expensive: 'NO' },
+    { name: 'Thai Pancake', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    { name: 'Coconut Ice Cream', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    { name: 'Thai Tea', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    { name: 'Pad Prik King', hungry: 'YES', spicy: 'YES', expensive: 'NO' },
+    { name: 'Thai Steamed Fish', hungry: 'YES', spicy: 'YES', expensive: 'YES' },
+    { name: 'Khao Pad', hungry: 'YES', spicy: 'NO', expensive: 'NO' },
   ],
 };
 
 
 function App() {
+  const [currentPage, setCurrentPage] = useState('main'); // 'main' or 'about'
   const [step, setStep] = useState(0);
   const [restaurant, setRestaurant] = useState('');
   const [answers, setAnswers] = useState({ hungry: '', spicy: '', expensive: '' });
   const [hasJiggled, setHasJiggled] = useState(false);
+  const [showJigglePopup, setShowJigglePopup] = useState(false);
+  const [lastInteraction, setLastInteraction] = useState(Date.now());
 
   // Animation state for swipe
   const [swipeStyle, setSwipeStyle] = useState({});
@@ -75,31 +142,58 @@ function App() {
   // Swipe gesture logic
   const questionCardRef = useRef(null);
   
+  // Jiggle animation function
+  const performJiggle = () => {
+    if (!questionCardRef.current) return;
+    
+    setShowJigglePopup(true);
+    setSwipeStyle({
+      transform: 'translateX(15px) rotate(2deg)',
+      transition: 'transform 0.3s ease'
+    });
+    setTimeout(() => {
+      setSwipeStyle({
+        transform: 'translateX(-15px) rotate(-2deg)',
+        transition: 'transform 0.3s ease'
+      });
+      setTimeout(() => {
+        setSwipeStyle({
+          transform: 'translateX(0px) rotate(0deg)',
+          transition: 'transform 0.3s ease'
+        });
+        setTimeout(() => setSwipeStyle({}), 300);
+      }, 300);
+    }, 300);
+    
+    // Hide popup after 2 seconds
+    setTimeout(() => {
+      setShowJigglePopup(false);
+    }, 2000);
+  };
+
   // Jiggle animation on first question
   useEffect(() => {
     if (step === 1 && !hasJiggled && questionCardRef.current) {
       setTimeout(() => {
-        setSwipeStyle({
-          transform: 'translateX(15px) rotate(2deg)',
-          transition: 'transform 0.3s ease'
-        });
-        setTimeout(() => {
-          setSwipeStyle({
-            transform: 'translateX(-15px) rotate(-2deg)',
-            transition: 'transform 0.3s ease'
-          });
-          setTimeout(() => {
-            setSwipeStyle({
-              transform: 'translateX(0px) rotate(0deg)',
-              transition: 'transform 0.3s ease'
-            });
-            setTimeout(() => setSwipeStyle({}), 300);
-            setHasJiggled(true);
-          }, 300);
-        }, 300);
+        performJiggle();
+        setHasJiggled(true);
       }, 500);
     }
   }, [step, hasJiggled]);
+
+  // Auto-jiggle every 5 seconds if no response
+  useEffect(() => {
+    if (step > 0 && step <= questions.length) {
+      const interval = setInterval(() => {
+        if (Date.now() - lastInteraction > 5000) {
+          performJiggle();
+          setLastInteraction(Date.now());
+        }
+      }, 1000);
+      
+      return () => clearInterval(interval);
+    }
+  }, [step, lastInteraction]);
 
   useEffect(() => {
     if (!isMobile.current || !questionCardRef.current || step === 0 || step > questions.length) return;
@@ -112,6 +206,7 @@ function App() {
       currentX = startX;
       handled = false;
       setSwipeStyle({});
+      setLastInteraction(Date.now()); // Update interaction time
     };
     const handleTouchMove = (e) => {
       if (startX === null) return;
@@ -137,6 +232,7 @@ function App() {
           setSwipeStyle({});
           setIsAnimating(false);
           handleAnswer(diff > 0 ? 'YES' : 'NO');
+          setLastInteraction(Date.now()); // Update interaction time
         }, 300);
       } else {
         setSwipeStyle({
@@ -162,6 +258,7 @@ function App() {
     const currentKey = questions[step - 1].key;
     setAnswers((prev) => ({ ...prev, [currentKey]: answer }));
     setStep(step + 1);
+    setLastInteraction(Date.now()); // Update interaction time
   };
 
   const getSuggestion = () => {
@@ -182,6 +279,54 @@ function App() {
     setStep(0);
     setRestaurant('');
     setAnswers({ hungry: '', spicy: '', expensive: '' });
+  };
+
+  // Feedback functionality
+  const sendFeedback = async (feedbackText) => {
+    // EmailJS configuration - You can set these up later at emailjs.com
+    // For now, we'll use a simple web service
+    
+    try {
+      // Simple feedback submission using FormSubmit (no setup required)
+      const formData = new FormData();
+      formData.append('feedback', feedbackText);
+      formData.append('app_version', APP_VERSION);
+      formData.append('timestamp', new Date().toLocaleString());
+      formData.append('_subject', `Feedback from Nak Makan Apa v${APP_VERSION}`);
+      formData.append('_captcha', 'false');
+      formData.append('_template', 'table');
+
+      const response = await fetch('https://formsubmit.co/tfqnet@gmail.com', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (response.ok) {
+        return true;
+      } else {
+        throw new Error('Form submission failed');
+      }
+    } catch (error) {
+      console.error('Failed to send feedback:', error);
+      
+      // Fallback: Show a modal with the feedback for user to copy
+      const fallbackMessage = `Hi! Here's the feedback that couldn't be sent automatically:
+
+Feedback: ${feedbackText}
+App Version: ${APP_VERSION}
+Time: ${new Date().toLocaleString()}
+
+Please email this to: tfqnet@gmail.com`;
+      
+      if (confirm('Unable to send feedback automatically. Would you like to copy the feedback text to send manually?')) {
+        navigator.clipboard.writeText(fallbackMessage).then(() => {
+          alert('Feedback copied to clipboard! Please paste it in an email to tfqnet@gmail.com');
+        }).catch(() => {
+          alert(fallbackMessage);
+        });
+      }
+      return false;
+    }
   };
 
   // Get color scheme for each step
@@ -219,9 +364,170 @@ function App() {
     }
   };
 
+  // About Page Component
+  const AboutPage = () => {
+    const [feedback, setFeedback] = useState('');
+    const [sending, setSending] = useState(false);
+    const [sent, setSent] = useState(false);
+
+    const handleFeedbackSubmit = async (e) => {
+      e.preventDefault();
+      if (!feedback.trim()) return;
+      
+      setSending(true);
+      const success = await sendFeedback(feedback);
+      setSending(false);
+      
+      if (success) {
+        setSent(true);
+        setFeedback('');
+        setTimeout(() => setSent(false), 3000);
+      } else {
+        alert('Failed to send feedback. Please try again.');
+      }
+    };
+
+    return (
+      <div style={{
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        minHeight: '100vh',
+        width: '100vw',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        padding: '20px',
+        transition: 'background 0.5s ease',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        overflow: 'auto',
+        color: 'white'
+      }}>
+        <div style={{
+          maxWidth: '600px',
+          width: '100%',
+          background: 'rgba(255, 255, 255, 0.95)',
+          backdropFilter: 'blur(10px)',
+          borderRadius: '20px',
+          padding: '30px',
+          boxShadow: '0 25px 50px rgba(0, 0, 0, 0.25)',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          color: '#333',
+          margin: '20px',
+          maxHeight: '90vh',
+          overflowY: 'auto'
+        }}>
+          <button 
+            onClick={() => setCurrentPage('main')}
+            style={{
+              background: '#667eea',
+              border: 'none',
+              borderRadius: '10px',
+              padding: '10px 20px',
+              color: 'white',
+              cursor: 'pointer',
+              marginBottom: '20px',
+              fontSize: '14px'
+            }}
+          >
+            ← Back to App
+          </button>
+
+          <h1 style={{ textAlign: 'center', marginBottom: '30px', color: '#4c1d95' }}>About Nak Makan Apa?</h1>
+          
+          <div style={{ marginBottom: '30px', lineHeight: '1.6' }}>
+            <p><strong>Version:</strong> {APP_VERSION}</p>
+            <p><strong>Developer:</strong> Taufiq Tomadan</p>
+            
+            <h3>What is this app?</h3>
+            <p>
+              "Nak Makan Apa?" helps you decide what to eat based on your current mood and preferences. 
+              Simply answer three questions about how hungry you are, if you want something spicy, 
+              and your budget preference. The app will suggest the perfect Malaysian food for you!
+            </p>
+
+            <h3>Features:</h3>
+            <ul style={{ paddingLeft: '20px' }}>
+              <li>90+ Malaysian food options across Western, Mamak, and Thai categories</li>
+              <li>Smart recommendation system based on your preferences</li>
+              <li>Mobile-friendly swipe gestures (swipe right for yes, left for no)</li>
+              <li>Progressive Web App (PWA) - install it on your phone!</li>
+              <li>Offline support</li>
+            </ul>
+
+            <h3>How to use:</h3>
+            <ol style={{ paddingLeft: '20px' }}>
+              <li>Choose your preferred restaurant type</li>
+              <li>Answer three simple questions about your preferences</li>
+              <li>Get your personalized food recommendation!</li>
+            </ol>
+          </div>
+
+          <div style={{
+            background: 'rgba(103, 126, 234, 0.1)',
+            borderRadius: '15px',
+            padding: '20px',
+            marginBottom: '20px',
+            border: '1px solid rgba(103, 126, 234, 0.2)'
+          }}>
+            <h3 style={{ color: '#4c1d95', marginTop: 0 }}>Send Feedback</h3>
+            <form onSubmit={handleFeedbackSubmit}>
+              <textarea
+                value={feedback}
+                onChange={(e) => setFeedback(e.target.value)}
+                placeholder="Share your thoughts, suggestions, or report issues..."
+                style={{
+                  width: '100%',
+                  height: '100px',
+                  borderRadius: '10px',
+                  border: 'none',
+                  padding: '15px',
+                  resize: 'vertical',
+                  fontSize: '16px',
+                  boxSizing: 'border-box'
+                }}
+              />
+              <div style={{ textAlign: 'center' }}>
+                <button
+                  type="submit"
+                  disabled={sending || !feedback.trim()}
+                  style={{
+                    background: sending ? '#ccc' : '#4facfe',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '10px',
+                    padding: '12px 25px',
+                    marginTop: '10px',
+                    cursor: sending ? 'not-allowed' : 'pointer',
+                    fontSize: '16px'
+                  }}
+                >
+                  {sending ? 'Sending...' : 'Send Feedback'}
+                </button>
+              </div>
+              {sent && (
+                <p style={{ color: '#4ade80', marginTop: '10px', textAlign: 'center' }}>
+                  ✅ Feedback sent successfully! Thank you!
+                </p>
+              )}
+            </form>
+          </div>
+
+          <div style={{ textAlign: 'center', opacity: 0.8, fontSize: '14px' }}>
+            <p>Made with ❤️ for Malaysian food lovers</p>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   const colors = getStepColors();
 
   return (
+    <>
+      {currentPage === 'about' ? (
+        <AboutPage />
+      ) : (
     <div style={{ 
       background: colors.background, 
       minHeight: '100vh', 
@@ -256,50 +562,45 @@ function App() {
               <button onClick={() => handleRestaurant('mamak')}>Mamak</button>
               <button onClick={() => handleRestaurant('thai')}>Thai Food</button>
             </div>
+            <button 
+              onClick={() => setCurrentPage('about')}
+              style={{
+                background: 'rgba(255, 255, 255, 0.2)',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '10px',
+                padding: '8px 16px',
+                color: colors.titleColor,
+                cursor: 'pointer',
+                marginTop: '20px',
+                fontSize: '14px'
+              }}
+            >
+              ℹ️ About & Feedback
+            </button>
           </>
         )}
         {step > 0 && step <= questions.length && (
           <>
-            {/* Swipe indicators for mobile */}
-            {isMobile.current && (
+            {/* Jiggle instruction popup */}
+            {showJigglePopup && isMobile.current && (
               <div style={{
                 position: 'absolute',
-                top: '20px',
-                left: '0',
-                right: '0',
-                display: 'flex',
-                justifyContent: 'space-between',
-                padding: '0 20px',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                background: 'rgba(0, 0, 0, 0.8)',
+                color: 'white',
+                padding: '16px 24px',
+                borderRadius: '12px',
+                fontSize: '14px',
+                fontWeight: '600',
+                textAlign: 'center',
+                zIndex: 1000,
+                animation: 'fadeInOut 2s ease',
                 pointerEvents: 'none'
               }}>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  background: 'rgba(239, 68, 68, 0.9)',
-                  padding: '8px 12px',
-                  borderRadius: '20px',
-                  color: 'white',
-                  fontSize: '12px',
-                  fontWeight: '600'
-                }}>
-                  <span>👈</span>
-                  <span>NO</span>
-                </div>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  background: 'rgba(34, 197, 94, 0.9)',
-                  padding: '8px 12px',
-                  borderRadius: '20px',
-                  color: 'white',
-                  fontSize: '12px',
-                  fontWeight: '600'
-                }}>
-                  <span>YES</span>
-                  <span>👉</span>
-                </div>
+                👈 No<br/>
+                👉 Yes
               </div>
             )}
             <h2>{questions[step - 1].text}</h2>
@@ -326,6 +627,8 @@ function App() {
         )}
       </div>
     </div>
+      )}
+    </>
   );
 }
 export default App;
