@@ -38,6 +38,34 @@ const foodCategories = {
     { name: 'Beef Stroganoff', hungry: 'YES', spicy: 'NO', expensive: 'YES' },
     { name: 'Chicken Alfredo', hungry: 'YES', spicy: 'NO', expensive: 'NO' },
     { name: 'Pepperoni Pizza', hungry: 'YES', spicy: 'NO', expensive: 'NO' },
+    // Adding more options for ALL YES combination
+    { name: 'Spicy Lobster', hungry: 'YES', spicy: 'YES', expensive: 'YES' },
+    { name: 'Cajun Steak', hungry: 'YES', spicy: 'YES', expensive: 'YES' },
+    { name: 'Buffalo Wings Platter', hungry: 'YES', spicy: 'YES', expensive: 'YES' },
+    { name: 'Spicy Wagyu Burger', hungry: 'YES', spicy: 'YES', expensive: 'YES' },
+    { name: 'Hot Honey Ribs', hungry: 'YES', spicy: 'YES', expensive: 'YES' },
+    // Adding more options for other combinations
+    { name: 'Buffalo Chicken Wings', hungry: 'YES', spicy: 'YES', expensive: 'NO' },
+    { name: 'Spicy Chicken Burger', hungry: 'YES', spicy: 'YES', expensive: 'NO' },
+    { name: 'Jalapeño Burger', hungry: 'YES', spicy: 'YES', expensive: 'NO' },
+    { name: 'Spicy Fish Tacos', hungry: 'YES', spicy: 'YES', expensive: 'NO' },
+    { name: 'Hot Wings', hungry: 'YES', spicy: 'YES', expensive: 'NO' },
+    // Adding more light snacks
+    { name: 'Cheese Fries', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    { name: 'Mozzarella Sticks', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    { name: 'Chicken Nuggets', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    { name: 'Garden Salad', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    { name: 'Bread Rolls', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    // More expensive light options
+    { name: 'Truffle Fries', hungry: 'NO', spicy: 'NO', expensive: 'YES' },
+    { name: 'Oysters', hungry: 'NO', spicy: 'NO', expensive: 'YES' },
+    { name: 'Caviar Appetizer', hungry: 'NO', spicy: 'NO', expensive: 'YES' },
+    { name: 'Foie Gras', hungry: 'NO', spicy: 'NO', expensive: 'YES' },
+    // More spicy light options
+    { name: 'Jalapeño Poppers', hungry: 'NO', spicy: 'YES', expensive: 'NO' },
+    { name: 'Spicy Wings', hungry: 'NO', spicy: 'YES', expensive: 'NO' },
+    { name: 'Hot Sauce Fries', hungry: 'NO', spicy: 'YES', expensive: 'NO' },
+    { name: 'Chili Cheese Nachos', hungry: 'NO', spicy: 'YES', expensive: 'NO' },
   ],
   mamak: [
     { name: 'Roti Canai', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
@@ -70,6 +98,37 @@ const foodCategories = {
     { name: 'Kari Ayam', hungry: 'YES', spicy: 'YES', expensive: 'NO' },
     { name: 'Kopi O', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
     { name: 'Limau Ais', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    // Adding more options for ALL YES combination
+    { name: 'Nasi Kandar Special', hungry: 'YES', spicy: 'YES', expensive: 'YES' },
+    { name: 'Kambing Briyani', hungry: 'YES', spicy: 'YES', expensive: 'YES' },
+    { name: 'Fish Head Curry', hungry: 'YES', spicy: 'YES', expensive: 'YES' },
+    { name: 'Mutton Curry', hungry: 'YES', spicy: 'YES', expensive: 'YES' },
+    { name: 'Beef Rendang Premium', hungry: 'YES', spicy: 'YES', expensive: 'YES' },
+    // More spicy but cheap options
+    { name: 'Mee Curry', hungry: 'YES', spicy: 'YES', expensive: 'NO' },
+    { name: 'Bee Hoon Goreng Pedas', hungry: 'YES', spicy: 'YES', expensive: 'NO' },
+    { name: 'Nasi Goreng Cili Padi', hungry: 'YES', spicy: 'YES', expensive: 'NO' },
+    { name: 'Mee Kolok Pedas', hungry: 'YES', spicy: 'YES', expensive: 'NO' },
+    { name: 'Rojak Mamak', hungry: 'YES', spicy: 'YES', expensive: 'NO' },
+    // More light snacks
+    { name: 'Vadai', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    { name: 'Idli', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    { name: 'Appam', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    { name: 'Roti Kirai', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    { name: 'Kuih Muih', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    // More expensive light options
+    { name: 'Cheese Naan', hungry: 'NO', spicy: 'NO', expensive: 'YES' },
+    { name: 'Garlic Naan', hungry: 'NO', spicy: 'NO', expensive: 'YES' },
+    { name: 'Butter Naan', hungry: 'NO', spicy: 'NO', expensive: 'YES' },
+    { name: 'Kulfi Ice Cream', hungry: 'NO', spicy: 'NO', expensive: 'YES' },
+    // More spicy light options
+    { name: 'Sambal Sotong', hungry: 'NO', spicy: 'YES', expensive: 'NO' },
+    { name: 'Keropok Lekor Pedas', hungry: 'NO', spicy: 'YES', expensive: 'NO' },
+    { name: 'Cucur Udang', hungry: 'NO', spicy: 'YES', expensive: 'NO' },
+    { name: 'Acar Jelatah', hungry: 'NO', spicy: 'YES', expensive: 'NO' },
+    // Expensive spicy light options
+    { name: 'Sambal Prawns', hungry: 'NO', spicy: 'YES', expensive: 'YES' },
+    { name: 'Chili Crab Bites', hungry: 'NO', spicy: 'YES', expensive: 'YES' },
   ],
   thai: [
     { name: 'Tom Yum', hungry: 'YES', spicy: 'YES', expensive: 'NO' },
@@ -102,6 +161,39 @@ const foodCategories = {
     { name: 'Pad Prik King', hungry: 'YES', spicy: 'YES', expensive: 'NO' },
     { name: 'Thai Steamed Fish', hungry: 'YES', spicy: 'YES', expensive: 'YES' },
     { name: 'Khao Pad', hungry: 'YES', spicy: 'NO', expensive: 'NO' },
+    // Adding more options for ALL YES combination
+    { name: 'Premium Tom Yum Goong', hungry: 'YES', spicy: 'YES', expensive: 'YES' },
+    { name: 'Lobster Green Curry', hungry: 'YES', spicy: 'YES', expensive: 'YES' },
+    { name: 'Spicy Beef Rendang Thai Style', hungry: 'YES', spicy: 'YES', expensive: 'YES' },
+    { name: 'King Prawn Red Curry', hungry: 'YES', spicy: 'YES', expensive: 'YES' },
+    { name: 'Thai Chili Crab', hungry: 'YES', spicy: 'YES', expensive: 'YES' },
+    { name: 'Spicy Duck Curry', hungry: 'YES', spicy: 'YES', expensive: 'YES' },
+    // More spicy but cheap options
+    { name: 'Thai Spicy Noodles', hungry: 'YES', spicy: 'YES', expensive: 'NO' },
+    { name: 'Pad Thai Extra Spicy', hungry: 'YES', spicy: 'YES', expensive: 'NO' },
+    { name: 'Thai Chili Chicken', hungry: 'YES', spicy: 'YES', expensive: 'NO' },
+    { name: 'Spicy Thai Seafood Soup', hungry: 'YES', spicy: 'YES', expensive: 'NO' },
+    { name: 'Thai Jungle Curry', hungry: 'YES', spicy: 'YES', expensive: 'NO' },
+    // More light snacks
+    { name: 'Thai Crackers', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    { name: 'Coconut Pudding', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    { name: 'Thai Fruit Salad', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    { name: 'Rice Crackers', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    { name: 'Thai Jelly', hungry: 'NO', spicy: 'NO', expensive: 'NO' },
+    // More expensive light options
+    { name: 'Thai Royal Dessert', hungry: 'NO', spicy: 'NO', expensive: 'YES' },
+    { name: 'Gold Leaf Mango', hungry: 'NO', spicy: 'NO', expensive: 'YES' },
+    { name: 'Premium Thai Tea', hungry: 'NO', spicy: 'NO', expensive: 'YES' },
+    { name: 'Durian Ice Cream', hungry: 'NO', spicy: 'NO', expensive: 'YES' },
+    // More spicy light options
+    { name: 'Spicy Thai Jerky', hungry: 'NO', spicy: 'YES', expensive: 'NO' },
+    { name: 'Chili Mango', hungry: 'NO', spicy: 'YES', expensive: 'NO' },
+    { name: 'Thai Chili Nuts', hungry: 'NO', spicy: 'YES', expensive: 'NO' },
+    { name: 'Som Tam Fruit', hungry: 'NO', spicy: 'YES', expensive: 'NO' },
+    // Expensive spicy light options
+    { name: 'Spicy Lobster Salad', hungry: 'NO', spicy: 'YES', expensive: 'YES' },
+    { name: 'Chili Prawns Appetizer', hungry: 'NO', spicy: 'YES', expensive: 'YES' },
+    { name: 'Thai Caviar Spicy', hungry: 'NO', spicy: 'YES', expensive: 'YES' },
   ],
 };
 
