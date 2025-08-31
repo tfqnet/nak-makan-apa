@@ -13,6 +13,21 @@ createRoot(document.getElementById('root')).render(
 // Register service worker for PWA
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/src/service-worker.js');
+    navigator.serviceWorker.register('/src/service-worker.js').then(reg => {
+      if (reg.waiting) {
+        alert('Versi baru tersedia! App akan di-refresh.');
+        reg.waiting.postMessage('SKIP_WAITING');
+        window.location.reload();
+      }
+      reg.addEventListener('updatefound', () => {
+        const newWorker = reg.installing;
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            alert('Versi baru tersedia! App akan di-refresh.');
+            window.location.reload();
+          }
+        });
+      });
+    });
   });
 }
