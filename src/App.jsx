@@ -165,7 +165,7 @@ function App() {
       return {
         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
         cardBg: 'rgba(255, 255, 255, 0.95)',
-        titleColor: '#ffffff'
+        titleColor: '#4c1d95' // Dark purple instead of white
       };
     } else if (step === 1) {
       return {
@@ -200,11 +200,16 @@ function App() {
     <div style={{ 
       background: colors.background, 
       minHeight: '100vh', 
+      width: '100vw',
+      position: 'fixed',
+      top: 0,
+      left: 0,
       padding: '20px',
       transition: 'background 0.5s ease',
       display: 'flex',
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
+      overflow: 'auto'
     }}>
       <div 
         className="app-container"
@@ -213,7 +218,8 @@ function App() {
           ...(isMobile.current ? swipeStyle : {}),
           background: colors.cardBg,
           backdropFilter: 'blur(10px)',
-          border: '1px solid rgba(255, 255, 255, 0.2)'
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          boxShadow: '0 25px 50px rgba(0, 0, 0, 0.25)'
         }}
       >
         {step === 0 && <h1 style={{ color: colors.titleColor }}>Nak Makan Apa?</h1>}
@@ -260,7 +266,9 @@ function App() {
             ) : (
               <p className="suggestion">Tiada cadangan makanan untuk pilihan ini.</p>
             )}
-            <button onClick={handleRestart}>Cuba lagi</button>
+            <div style={{display: 'flex', justifyContent: 'center', marginTop: '2rem'}}>
+              <button onClick={handleRestart}>Cuba lagi</button>
+            </div>
           </>
         )}
       </div>
