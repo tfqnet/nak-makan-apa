@@ -551,14 +551,7 @@ Please email this to: tfqnet@gmail.com`;
               and your budget preference. The app will suggest the perfect Malaysian food for you!
             </p>
 
-            <h3>Features:</h3>
-            <ul style={{ paddingLeft: '20px' }}>
-              <li>90+ Malaysian food options across Western, Mamak, and Thai categories</li>
-              <li>Smart recommendation system based on your preferences</li>
-              <li>Mobile-friendly swipe gestures (swipe right for yes, left for no)</li>
-              <li>Progressive Web App (PWA) - install it on your phone!</li>
-              <li>Offline support</li>
-            </ul>
+            
 
             <h3>How to use:</h3>
             <ol style={{ paddingLeft: '20px' }}>
